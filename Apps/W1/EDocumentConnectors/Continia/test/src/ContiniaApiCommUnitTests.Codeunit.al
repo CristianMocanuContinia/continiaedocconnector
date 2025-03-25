@@ -694,7 +694,7 @@ codeunit 148200 "Continia Api Comm. Unit Tests"
         ActivatedNetProf."Profile Direction" := ActivatedNetProf."Profile Direction"::Outbound;
         ActivatedNetProf.Modify();
 
-        ContiniaMockHttpHandler.AddResponse(200, GetMockResponseContent('ParticipationProfile200.txt', ActivatedNetProf.Id));
+        ContiniaMockHttpHandler.AddResponse(200, GetMockResponseContent('ParticipationProfile200.txt'));
 
         // [When] Patch Participation Profile
         TempActivatedNetProf := ActivatedNetProf;
@@ -952,18 +952,7 @@ codeunit 148200 "Continia Api Comm. Unit Tests"
 
     local procedure GetMockResponseContent(FileName: Text) ContentText: Text
     begin
-        ContentText := GetMockResponseContent(FileName, CreateGuid());
-    end;
-
-    local procedure GetMockResponseContent(FileName: Text; ParticipationProfileId: Guid) ContentText: Text
-    var
-        Regex: Codeunit Regex;
-    begin
         ContentText := NavApp.GetResourceAsText(FileName, TextEncoding::UTF8);
-        if ContentText.Contains('{random.guid}') then
-            ContentText := Regex.Replace(ContentText, '{random.guid}', Format(CreateGuid(), 0, 9));
-        if ContentText.Contains('{participationProfileId.ToLower}') then
-            ContentText := Regex.Replace(ContentText, '{participationProfileId.ToLower}', Format(ParticipationProfileId, 0, 9).ToLower());
     end;
 
     [HttpClientHandler]
@@ -972,7 +961,7 @@ codeunit 148200 "Continia Api Comm. Unit Tests"
         if ContiniaMockHttpHandler.HandleAuthorization(Request, Response) then
             exit;
 
-        Response := ContiniaMockHttpHandler.GetResponse();
+        Response := ContiniaMockHttpHandler.GetResponse(Request);
     end;
 
     var

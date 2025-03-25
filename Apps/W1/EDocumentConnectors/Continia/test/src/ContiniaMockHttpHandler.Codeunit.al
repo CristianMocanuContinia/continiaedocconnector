@@ -3,6 +3,7 @@ codeunit 148201 "Continia Mock Http Handler"
     var
         ResponseStatusCodes: Dictionary of [Text, Integer];
         ResponseContents: Dictionary of [Text, Text];
+        DefaultRequest: Boolean;
 
 
     internal procedure AddResponse(Method: HttpRequestType; RequestPath: Text; StatusCode: Integer; ResponseContent: Text)
@@ -13,10 +14,12 @@ codeunit 148201 "Continia Mock Http Handler"
         if StrPos(RequestPath, '?') > 0 then
             RequestPath := CopyStr(RequestPath, 1, StrPos(RequestPath, '?') - 1);
 
-        if (Method = Method::Unknown) and (RequestPath = '') then
-            DictionaryKey := ''
-        else
+        if (Method = Method::Unknown) and (RequestPath = '') then begin
+            DefaultRequest := true;
+            DictionaryKey := '';
+        end else
             DictionaryKey := GetDictionaryKey(RequestPath, Method);
+
         ResponseStatusCodes.Add(DictionaryKey, StatusCode);
         ResponseContents.Add(DictionaryKey, ResponseContent);
     end;
@@ -35,15 +38,13 @@ codeunit 148201 "Continia Mock Http Handler"
     var
         DictionaryKey: Text;
     begin
-        DictionaryKey := GetDictionaryKey(Request.Path, Request.RequestType);
+        if DefaultRequest then
+            DictionaryKey := ''
+        else
+            DictionaryKey := GetDictionaryKey(Request.Path, Request.RequestType);
         HttpResponseMessage.HttpStatusCode := ResponseStatusCodes.Get(DictionaryKey);
         HttpResponseMessage.Content().WriteFrom(ReplaceContentPlaceholders(ResponseContents.Get(DictionaryKey), Request.Path));
-    end;
-
-    internal procedure GetResponse() HttpResponseMessage: TestHttpResponseMessage
-    begin
-        HttpResponseMessage.HttpStatusCode := ResponseStatusCodes.Get('');
-        HttpResponseMessage.Content().WriteFrom(ReplaceContentPlaceholders(ResponseContents.Get(''), ''));
+        Clear(DefaultRequest);
     end;
 
     internal procedure HandleAuthorization(Request: TestHttpRequestMessage; var HttpResponseMessage: TestHttpResponseMessage): Boolean
