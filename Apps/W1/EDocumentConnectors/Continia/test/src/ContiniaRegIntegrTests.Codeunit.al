@@ -379,7 +379,6 @@ codeunit 148204 "Continia Reg. Integr. Tests"
 
         // [Given] Connected Participation
         ConnectorLibrary.PrepareParticipation(Participation);
-        //ApiUrlMockSubscribers.SetCdnApiCaseUrlSegment('200-inprocess');
 
         // [Given] Team Member + 'E-Doc. Core - Edit' permissions
         LibraryPermission.SetTeamMember();
@@ -417,7 +416,6 @@ codeunit 148204 "Continia Reg. Integr. Tests"
         Assert.AreEqual(Format(Enum::"Continia Registration Status"::InProcess), Participations.RegistrationStatus.Value, IncorrectValueErr);
 
         // [When] click Unregister
-        //ApiUrlMockSubscribers.SetCdnApiCaseUrlSegment('200'); // Response code 200 means it was deleted
         ContiniaMockHttpHandler.ClearHandler();
         ContiniaMockHttpHandler.AddResponse(
             HttpRequestType::Delete,
@@ -909,7 +907,6 @@ codeunit 148204 "Continia Reg. Integr. Tests"
         Assert.AreEqual(false, OnboardingWizard.ActionNext.Enabled(), 'Next should be disabled');
 
         // [When] Change VAT number and Accept License terms
-        //ApiUrlMockSubscribers.SetCdnApiCaseUrlSegment('200-suspended');
         OnboardingWizard."VAT Registration No.".SetValue('111222334');
         OnboardingWizard.LicenseTerms.SetValue(true);
 

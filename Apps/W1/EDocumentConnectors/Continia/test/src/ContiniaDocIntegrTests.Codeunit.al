@@ -1213,6 +1213,4 @@ codeunit 148203 "Continia Doc. Integr. Tests"
         TestItemIsoUomTok: Label 'EA', Locked = true;
         DocumentUriPatternTok: Label '%1/documents.xml', Comment = '%1 - Base URL', Locked = true;
         DownloadUriPatternTok: Label '%1/documents.xml/download/peppol', Comment = '%1 - Base URL', Locked = true;
-
-
 }

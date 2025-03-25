@@ -5,7 +5,6 @@ codeunit 148201 "Continia Mock Http Handler"
         ResponseContents: Dictionary of [Text, Text];
         DefaultRequest: Boolean;
 
-
     internal procedure AddResponse(Method: HttpRequestType; RequestPath: Text; StatusCode: Integer; ResponseContent: Text)
     var
         DictionaryKey: Text;
