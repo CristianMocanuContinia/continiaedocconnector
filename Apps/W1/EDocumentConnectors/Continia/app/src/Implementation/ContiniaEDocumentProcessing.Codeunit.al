@@ -162,7 +162,6 @@ codeunit 6391 "Continia EDocument Processing"
     procedure ReceiveDocuments(var EDocumentService: Record "E-Document Service"; ReceivedEDocuments: Codeunit "Temp Blob List"; ReceiveContext: Codeunit ReceiveContext)
     var
         TempBlob: Codeunit "Temp Blob";
-        ApiRequests: Codeunit "Continia Api Requests";
         OutStream: OutStream;
         ContentData: Text;
         DocumentResponse: XmlDocument;
@@ -170,7 +169,7 @@ codeunit 6391 "Continia EDocument Processing"
         DocumentNode: XmlNode;
         i: Integer;
     begin
-        if not ApiRequests.GetDocumentsForCompany(ReceiveContext) then
+        if not ReceiveDocumentsForEDocumentService(EDocumentService, ReceiveContext) then
             exit;
 
         ReceiveContext.Http().GetHttpResponseMessage().Content.ReadAs(ContentData);
@@ -183,32 +182,26 @@ codeunit 6391 "Continia EDocument Processing"
 
         for i := 1 to DocumentNodeList.Count do begin
             DocumentNodeList.Get(i, DocumentNode);
-            // Check if the document should be processed with current EDocumentService
-            if DocumentSupportedByEDocumentService(EDocumentService, DocumentNode) then begin
-                Clear(TempBlob);
-                TempBlob.CreateOutStream(OutStream, TextEncoding::UTF8);
-                DocumentNode.WriteTo(OutStream);
-                ReceivedEDocuments.Add(TempBlob);
-            end;
+            Clear(TempBlob);
+            TempBlob.CreateOutStream(OutStream, TextEncoding::UTF8);
+            DocumentNode.WriteTo(OutStream);
+            ReceivedEDocuments.Add(TempBlob);
         end;
     end;
 
-    local procedure DocumentSupportedByEDocumentService(EDocumentService: Record "E-Document Service"; DocumentNode: XmlNode): Boolean
+    local procedure ReceiveDocumentsForEDocumentService(EDocumentService: Record "E-Document Service"; ReceiveContext: Codeunit ReceiveContext): Boolean
     var
         ActivatedNetworkProfile: Record "Continia Activated Net. Prof.";
-        ParticipationProfileIdNode: XmlNode;
-        ParticipationNetworkProfileId: Guid;
+        ApiRequests: Codeunit "Continia Api Requests";
     begin
-        DocumentNode.SelectSingleNode('participation_profile_id', ParticipationProfileIdNode);
-        Evaluate(ParticipationNetworkProfileId, ParticipationProfileIdNode.AsXmlElement().InnerText);
-
-        ActivatedNetworkProfile.SetCurrentKey(Id);
-        ActivatedNetworkProfile.SetRange(Id, ParticipationNetworkProfileId);
-        if not ActivatedNetworkProfile.FindFirst() then
+        ActivatedNetworkProfile.SetRange("E-Document Service Code", EDocumentService.Code);
+        if not ActivatedNetworkProfile.FindSet() then
             exit(false);
-
-        if EDocumentService.Code = ActivatedNetworkProfile."E-Document Service Code" then
-            exit(true);
+        repeat
+            if not ApiRequests.GetDocuments(ActivatedNetworkProfile, ReceiveContext) then
+                exit(false);
+        until ActivatedNetworkProfile.Next() = 0;
+        exit(true);
     end;
 
     procedure DownloadDocument(var EDocument: Record "E-Document"; var EDocumentService: Record "E-Document Service"; DocumentMetadata: Codeunit "Temp Blob"; ReceiveContext: Codeunit ReceiveContext)
@@ -243,7 +236,7 @@ codeunit 6391 "Continia EDocument Processing"
         ApiRequests: Codeunit "Continia Api Requests";
     begin
         // Mark document as processed in Continia Online
-        ApiRequests.MarkDocumentAsProcessed( EDocument."Continia Document Id", ReceiveContext);
+        ApiRequests.MarkDocumentAsProcessed(EDocument."Continia Document Id", ReceiveContext);
     end;
 
     procedure GetCancellationStatus(var EDocument: Record "E-Document"; var EDocumentService: Record "E-Document Service"; ActionContext: Codeunit ActionContext) Success: Boolean
