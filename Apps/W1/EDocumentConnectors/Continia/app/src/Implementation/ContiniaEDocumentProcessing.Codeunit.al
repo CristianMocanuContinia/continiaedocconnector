@@ -249,9 +249,6 @@ codeunit 6391 "Continia EDocument Processing"
     begin
         if Rec."Service Integration V2" <> Rec."Service Integration V2"::Continia then
             exit;
-
-        if Rec."Document Format" = Rec."Document Format"::"Data Exchange" then
-            Error(DocumentFormatUnsupportedErr);
     end;
 
     [EventSubscriber(ObjectType::Page, Page::"E-Document Service", OnAfterValidateEvent, "Export Format", true, true)]
@@ -259,14 +256,10 @@ codeunit 6391 "Continia EDocument Processing"
     begin
         if Rec."Service Integration V2" <> Rec."Service Integration V2"::Continia then
             exit;
-
-        if Rec."Document Format" = Rec."Document Format"::"Data Exchange" then
-            Error(DocumentFormatUnsupportedErr);
     end;
 
     var
         ExternalServiceTok: Label 'ExternalServiceConnector', Locked = true;
         UnknownRejectionReasonErr: Label 'Unknown rejection reason';
         ReasonLbl: Label 'Reason: %1 - %2', Comment = '%1 - Reason code, %2 - Reason description';
-        DocumentFormatUnsupportedErr: Label 'Data Exchange is not supported with the Continia Service Integration in this version';
 }
