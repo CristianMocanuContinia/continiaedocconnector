@@ -161,6 +161,19 @@ codeunit 6391 "Continia EDocument Processing"
 
     procedure ReceiveDocuments(var EDocumentService: Record "E-Document Service"; ReceivedEDocuments: Codeunit "Temp Blob List"; ReceiveContext: Codeunit ReceiveContext)
     var
+        ActivatedNetworkProfile: Record "Continia Activated Net. Prof.";
+    begin
+        ActivatedNetworkProfile.SetRange("E-Document Service Code", EDocumentService.Code);
+        if not ActivatedNetworkProfile.FindSet() then
+            exit;
+        repeat
+            ReceiveNetworkProfileDocuments(ActivatedNetworkProfile, ReceivedEDocuments, ReceiveContext);
+        until ActivatedNetworkProfile.Next() = 0;
+    end;
+
+    local procedure ReceiveNetworkProfileDocuments(ActivatedNetworkProfile: Record "Continia Activated Net. Prof."; ReceivedEDocuments: Codeunit "Temp Blob List"; ReceiveContext: Codeunit ReceiveContext)
+    var
+        ApiRequests: Codeunit "Continia Api Requests";
         TempBlob: Codeunit "Temp Blob";
         OutStream: OutStream;
         ContentData: Text;
@@ -169,7 +182,7 @@ codeunit 6391 "Continia EDocument Processing"
         DocumentNode: XmlNode;
         i: Integer;
     begin
-        if not ReceiveDocumentsForEDocumentService(EDocumentService, ReceiveContext) then
+        if not ApiRequests.GetDocuments(ActivatedNetworkProfile, ReceiveContext) then
             exit;
 
         ReceiveContext.Http().GetHttpResponseMessage().Content.ReadAs(ContentData);
@@ -187,21 +200,6 @@ codeunit 6391 "Continia EDocument Processing"
             DocumentNode.WriteTo(OutStream);
             ReceivedEDocuments.Add(TempBlob);
         end;
-    end;
-
-    local procedure ReceiveDocumentsForEDocumentService(EDocumentService: Record "E-Document Service"; ReceiveContext: Codeunit ReceiveContext): Boolean
-    var
-        ActivatedNetworkProfile: Record "Continia Activated Net. Prof.";
-        ApiRequests: Codeunit "Continia Api Requests";
-    begin
-        ActivatedNetworkProfile.SetRange("E-Document Service Code", EDocumentService.Code);
-        if not ActivatedNetworkProfile.FindSet() then
-            exit(false);
-        repeat
-            if not ApiRequests.GetDocuments(ActivatedNetworkProfile, ReceiveContext) then
-                exit(false);
-        until ActivatedNetworkProfile.Next() = 0;
-        exit(true);
     end;
 
     procedure DownloadDocument(var EDocument: Record "E-Document"; var EDocumentService: Record "E-Document Service"; DocumentMetadata: Codeunit "Temp Blob"; ReceiveContext: Codeunit ReceiveContext)

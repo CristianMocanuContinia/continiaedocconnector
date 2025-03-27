@@ -730,7 +730,7 @@ codeunit 6393 "Continia Api Requests"
             ApiUrlMgt.DocumentsFoParticipationProfile(
                 ActivatedNetworkProfile.Network,
                 Participation.Id,
-                ActivatedNetworkProfile."Network Profile Id",
+                ActivatedNetworkProfile.Id,
                 CurrPage,
                 PageSize,
                 true),

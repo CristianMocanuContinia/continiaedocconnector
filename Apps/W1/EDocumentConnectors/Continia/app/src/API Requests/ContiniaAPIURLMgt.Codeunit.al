@@ -69,13 +69,22 @@ codeunit 6392 "Continia Api Url Mgt."
     internal procedure DocumentsFoParticipationProfile(Network: Enum "Continia E-Delivery Network"; ParticipationGuid: Guid; ProfileGuid: Guid; Page: Integer; PageSize: Integer; Incoming: Boolean): Text
     var
         DirectionQueryTxt: Text;
-        DocumentsForParticipationProfileUrlLbl: Label '%1/networks/%2/participations/%3/profiles/%4/documents.xml?page=%5&page_size=%6&direction=%7', Locked = true;
+        DocumentsForParticipationProfileUrlLbl: Label '%1/networks/%2/participations/%3/profiles/%4/documents.xml?page=%5&page_size=%6&direction=%7&start_date_utc=%8', Locked = true;
     begin
         if Incoming then
             DirectionQueryTxt := 'IncomingEnum'
         else
             DirectionQueryTxt := 'OutgoingEnum';
-        exit(StrSubstNo(DocumentsForParticipationProfileUrlLbl, CdnBaseUrl(), Network, GetGuidAsText(ParticipationGuid), GetGuidAsText(ProfileGuid), Page, PageSize, DirectionQueryTxt))
+        exit(StrSubstNo(
+                DocumentsForParticipationProfileUrlLbl,
+                CdnBaseUrl(),
+                Network,
+                GetGuidAsText(ParticipationGuid),
+                GetGuidAsText(ProfileGuid),
+                Page,
+                PageSize,
+                DirectionQueryTxt,
+                Format(CreateDateTime(DMY2Date(1, 1, 2000), 000000T))));
     end;
 
     internal procedure DocumentActionUrl(DocumentGuid: Guid): Text

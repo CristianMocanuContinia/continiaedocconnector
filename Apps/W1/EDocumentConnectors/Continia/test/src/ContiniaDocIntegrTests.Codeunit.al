@@ -984,8 +984,6 @@ codeunit 148203 "Continia Doc. Integr. Tests"
         EDocServicePage.Close();
 
         // [When] Manually fire job queue job to import Documents
-        if EDocument.FindLast() then
-            EDocument.SetFilter("Entry No", '>%1', EDocument."Entry No");
         ContiniaMockHttpHandler.ClearHandler();
         ReceiveDocumentsUri :=
             StrSubstNo(
@@ -993,7 +991,7 @@ codeunit 148203 "Continia Doc. Integr. Tests"
                 ContiniaApiUrlMgt.CdnBaseUrl(),
                 Enum::"Continia E-Delivery Network"::Peppol,
                 ConnectorLibrary.ParticipationId(),
-                ConnectorLibrary.DefaultNetworkProfileId());
+                ConnectorLibrary.ActiveNetworkProfileId());
         ContiniaMockHttpHandler.AddResponse(
             HttpRequestType::Get,
             ReceiveDocumentsUri,
@@ -1061,7 +1059,7 @@ codeunit 148203 "Continia Doc. Integr. Tests"
                 ContiniaApiUrlMgt.CdnBaseUrl(),
                 Enum::"Continia E-Delivery Network"::Peppol,
                 ConnectorLibrary.ParticipationId(),
-                ConnectorLibrary.DefaultNetworkProfileId());
+                ConnectorLibrary.ActiveNetworkProfileId());
         ContiniaMockHttpHandler.AddResponse(
             HttpRequestType::Get,
             ReceiveDocumentsUri,
@@ -1078,7 +1076,7 @@ codeunit 148203 "Continia Doc. Integr. Tests"
                 ContiniaApiUrlMgt.CdnBaseUrl(),
                 Enum::"Continia E-Delivery Network"::Peppol,
                 ConnectorLibrary.ParticipationId(),
-                ConnectorLibrary.NetworkProfileIdPeppolBis3Invoice());
+                ActivatedNetProf.Id);
         ContiniaMockHttpHandler.AddResponse(
             HttpRequestType::Get,
             ReceiveDocumentsUri,
