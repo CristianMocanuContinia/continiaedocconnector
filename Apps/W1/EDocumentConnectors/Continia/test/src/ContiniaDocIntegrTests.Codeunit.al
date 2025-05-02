@@ -1133,8 +1133,6 @@ codeunit 148203 "Continia Doc. Integr. Tests"
         Vendor."Receive E-Document To" := Enum::"E-Document Type"::"Purchase Invoice";
         Vendor.Modify();
 
-        // CreateTestItem();
-
         ConnectorLibrary.PrepareParticipation(EDocumentService);
 
         IsInitialized := true;
@@ -1166,6 +1164,7 @@ codeunit 148203 "Continia Doc. Integr. Tests"
             VATPostingSetup."VAT Bus. Posting Group" := Vendor."VAT Bus. Posting Group";
             VATPostingSetup."VAT Prod. Posting Group" := Item."VAT Prod. Posting Group";
             VATPostingSetup."VAT %" := 20;
+            VATPostingSetup."Tax Category" := 'S';
             VATPostingSetup.Insert();
         end;
     end;
