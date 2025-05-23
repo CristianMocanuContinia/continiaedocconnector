@@ -1067,7 +1067,7 @@ codeunit 148204 "Continia Reg. Integr. Tests"
         LibraryPermission: Codeunit "Library - Lower Permissions";
         Assert: Codeunit Assert;
         ContiniaMockHttpHandler: Codeunit "Continia Mock Http Handler";
-        ContiniaApiUrlMgt: Codeunit "Continia API URL Mgt.";
+        ContiniaApiUrlMgt: Codeunit "Continia Api Url";
         EnvironmentInfoTestLibrary: Codeunit "Environment Info Test Library";
         ConnectorLibrary: Codeunit "Continia Connector Library";
         IsInitialized: Boolean;

@@ -60,7 +60,7 @@ codeunit 148201 "Continia Mock Http Handler"
 
     internal procedure HandleAuthorization(Request: TestHttpRequestMessage; var HttpResponseMessage: TestHttpResponseMessage): Boolean
     var
-        ContiniaApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ContiniaApiUrlMgt: Codeunit "Continia Api Url";
     begin
         if Request.Path = ContiniaApiUrlMgt.ClientAccessTokenUrl() then begin
             HttpResponseMessage.HttpStatusCode := 200;

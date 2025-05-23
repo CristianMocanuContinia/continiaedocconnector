@@ -945,7 +945,7 @@ codeunit 148200 "Continia Api Comm. Unit Tests"
         ContiniaNetworkProfile: Record "Continia Network Profile";
         ApiRequests: Codeunit "Continia Api Requests";
         LibraryRandom: Codeunit "Library - Random";
-        ContiniaApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ContiniaApiUrlMgt: Codeunit "Continia Api Url";
         NumberOfRecords: Integer;
         LeftRecordsCount: Integer;
         ResponseHeader: Dictionary of [Text, Text];
@@ -988,7 +988,7 @@ codeunit 148200 "Continia Api Comm. Unit Tests"
         ContiniaNetworkIdentifier: Record "Continia Network Identifier";
         ApiRequests: Codeunit "Continia Api Requests";
         LibraryRandom: Codeunit "Library - Random";
-        ContiniaApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ContiniaApiUrlMgt: Codeunit "Continia Api Url";
         NumberOfRecords: Integer;
         LeftRecordsCount: Integer;
         ResponseHeader: Dictionary of [Text, Text];
@@ -1033,7 +1033,7 @@ codeunit 148200 "Continia Api Comm. Unit Tests"
         Participation: Record "Continia Participation";
         ApiRequests: Codeunit "Continia Api Requests";
         LibraryRandom: Codeunit "Library - Random";
-        ContiniaApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ContiniaApiUrlMgt: Codeunit "Continia Api Url";
         NumberOfRecords: Integer;
         LeftRecordsCount: Integer;
         ResponseHeader: Dictionary of [Text, Text];

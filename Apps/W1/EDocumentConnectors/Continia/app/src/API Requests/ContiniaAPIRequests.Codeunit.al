@@ -25,7 +25,7 @@ codeunit 6393 "Continia Api Requests"
     #region Get Network Profiles from Continia Delivery Network Api
     internal procedure GetNetworkProfiles(Network: Enum "Continia E-Delivery Network")
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
         CurrPage: Integer;
         PageSize: Integer;
@@ -116,7 +116,7 @@ codeunit 6393 "Continia Api Requests"
     #region Get Network Id Types from Continia Delivery Network Api
     internal procedure GetNetworkIdTypes(Network: Enum "Continia E-Delivery Network")
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
         CurrPage: Integer;
         PageSize: Integer;
@@ -220,7 +220,7 @@ codeunit 6393 "Continia Api Requests"
     #region Participation endpoints in Continia Delivery Network
     internal procedure GetParticipation(var Participation: Record "Continia Participation")
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
     begin
         if ExecuteRequest('GET', ApiUrlMgt.SingleParticipationUrl(Participation.Network, Participation.Id), HttpResponse) then
@@ -230,7 +230,7 @@ codeunit 6393 "Continia Api Requests"
     internal procedure PostParticipation(var TempParticipation: Record "Continia Participation" temporary) ParticipationGuid: Guid;
     var
         Participation: Record "Continia Participation";
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
         HttpContentData: Text;
     begin
@@ -247,7 +247,7 @@ codeunit 6393 "Continia Api Requests"
     internal procedure PatchParticipation(var TempParticipation: Record "Continia Participation" temporary)
     var
         Participation: Record "Continia Participation";
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
         HttpContentData: Text;
     begin
@@ -261,7 +261,7 @@ codeunit 6393 "Continia Api Requests"
 
     internal procedure DeleteParticipation(var Participation: Record "Continia Participation")
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
     begin
         if ExecuteRequest('DELETE', ApiUrlMgt.SingleParticipationUrl(Participation.Network, Participation.Id), HttpResponse) then
@@ -467,7 +467,7 @@ codeunit 6393 "Continia Api Requests"
     internal procedure PostParticipationProfile(var TempActivatedNetworkProfile: Record "Continia Activated Net. Prof." temporary; ParticipationGuid: Guid) ActivatedNetworkProfileGuid: Guid
     var
         ActivatedNetProf: Record "Continia Activated Net. Prof.";
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
         HttpContentData: Text;
     begin
@@ -484,7 +484,7 @@ codeunit 6393 "Continia Api Requests"
     internal procedure PatchParticipationProfile(var TempActivatedNetworkProfile: Record "Continia Activated Net. Prof." temporary; ParticipationGuid: Guid)
     var
         ActivatedNetProf: Record "Continia Activated Net. Prof.";
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
         HttpContentData: Text;
     begin
@@ -498,7 +498,7 @@ codeunit 6393 "Continia Api Requests"
 
     internal procedure DeleteParticipationProfile(var ActivatedNetworkProfile: Record "Continia Activated Net. Prof."; ParticipationGuid: Guid)
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
     begin
         if ExecuteRequest('DELETE', ApiUrlMgt.SingleParticipationProfileUrl(ActivatedNetworkProfile.Network, ParticipationGuid, ActivatedNetworkProfile.Id), HttpResponse) then begin
@@ -509,7 +509,7 @@ codeunit 6393 "Continia Api Requests"
 
     internal procedure GetAllParticipationProfiles(Participation: Record "Continia Participation")
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
         CurrPage: Integer;
         PageSize: Integer;
@@ -658,7 +658,7 @@ codeunit 6393 "Continia Api Requests"
     internal procedure CheckProfilesNotRegistered(var TempParticipation: Record "Continia Participation" temporary)
     var
         NetworkIdentifier: Record "Continia Network Identifier";
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpResponse: HttpResponseMessage;
     begin
         NetworkIdentifier := TempParticipation.GetNetworkIdentifier();
@@ -731,7 +731,7 @@ codeunit 6393 "Continia Api Requests"
     internal procedure GetDocuments(ActivatedNetworkProfile: Record "Continia Activated Net. Prof."; ReceiveContext: Codeunit ReceiveContext): Boolean
     var
         Participation: Record "Continia Participation";
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpRequest: HttpRequestMessage;
         HttpResponse: HttpResponseMessage;
         CurrPage: Integer;
@@ -766,7 +766,7 @@ codeunit 6393 "Continia Api Requests"
         ConnectionSetup: Record "Continia Connection Setup";
         CredentialManagement: Codeunit "Continia Credential Management";
         Base64Convert: Codeunit "Base64 Convert";
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         TempBlob: Codeunit "Temp Blob";
         HttpResponse: HttpResponseMessage;
         HttpRequest: HttpRequestMessage;
@@ -830,7 +830,7 @@ codeunit 6393 "Continia Api Requests"
     #region Get Technical response
     internal procedure GetTechnicalResponse(var EDocument: Record "E-Document"; SendContext: Codeunit SendContext): Boolean
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         EDocumentErrorHelper: Codeunit "E-Document Error Helper";
         SuccessfulStatusTok: Label 'SuccessEnum', Locked = true;
         ErrorStatusTok: Label 'ErrorEnum', Locked = true;
@@ -884,7 +884,7 @@ codeunit 6393 "Continia Api Requests"
     #region Get Document Business Responses
     internal procedure GetBusinessResponses(DocumentGuid: Guid; ActionContext: Codeunit ActionContext): Boolean
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpRequest: HttpRequestMessage;
         HttpResponse: HttpResponseMessage;
         Success: Boolean;
@@ -935,7 +935,7 @@ codeunit 6393 "Continia Api Requests"
 
     internal procedure PerformActionOnDocument(DocumentGuid: Guid; Action: Text; var HttpRequest: HttpRequestMessage; var HttpResponse: HttpResponseMessage): Boolean
     var
-        ApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ApiUrlMgt: Codeunit "Continia Api Url";
         HttpContentData: Text;
         ActionNode: XmlElement;
         RootNode: XmlElement;

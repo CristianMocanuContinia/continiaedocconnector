@@ -1251,7 +1251,7 @@ codeunit 148203 "Continia Doc. Integr. Tests"
         LibraryItemReference: Codeunit "Library - Item Reference";
         ConnectorLibrary: Codeunit "Continia Connector Library";
         ContiniaMockHttpHandler: Codeunit "Continia Mock Http Handler";
-        ContiniaApiUrlMgt: Codeunit "Continia Api Url Mgt.";
+        ContiniaApiUrlMgt: Codeunit "Continia Api Url";
 
         IsInitialized: Boolean;
         IncorrectValueErr: Label 'Wrong value';
